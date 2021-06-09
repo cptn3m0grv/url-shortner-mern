@@ -1,17 +1,21 @@
 const { Router } = require("express");
-const { findLongUrl } = require("../services/url-service");
+// const { findLongUrl } = require("../services/url-service");
+const MernDB = require("../models/db")
 const route = Router();
 
 route.get("/:code", async (req, res) => {
   const code = req.params.code;
   // TODO: validate code is available
 
-  const url = await findLongUrl(code);
-
-  if (url) {
-    return res.redirect(url.full);
-  } else {
-    return res.redirect('https://github.com/cptn3m0grv');
+  if(!code){
+    return res.json({"msg": "No code provided"})
+  }else{
+    const result = await MernDB.find({short: code});
+    if(result.length === 1){
+      return res.redirect(result[0].full);
+    }else{
+      return res.status(404).json({"msg": "404"})
+    }
   }
 });
 

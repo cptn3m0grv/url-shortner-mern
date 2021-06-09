@@ -1,19 +1,24 @@
 const express = require('express')
-const { db } = require('./models/db')
 const linksRoute = require('./routes/links')
 const redirRoute = require('./routes/redirection')
-
+const adminRoute = require("./routes/admin")
+const cors = require("cors")
+const PORT = 4445;
 const app = express()
 
-app.use(express.json())
+app.use(cors({
+    origin: "*",
+    methods: ["GET", "POST"],
+    credentials: true
+}));
 
-app.use('/api/links', linksRoute)
-app.use('/', redirRoute)
+app.use(express.json());
 
-// db.sync({force: true}) // never force:true in prod, it drops dbs
-//     .then(() => console.log('db works'))
-//     .catch((err) => console.error(err))
+app.use('/', redirRoute);
+app.use('/api/links', linksRoute);
+app.use('/admin/all', adminRoute);
 
-app.listen(4445, () => {
-    console.log('Server started on http://localhost:4445')
-})
+
+app.listen(PORT, () => {
+    console.log(`Server started on http://localhost:${PORT}`)
+});
