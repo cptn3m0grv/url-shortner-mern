@@ -32,7 +32,9 @@ route.post("/", async (req, res) => {
         const newPostDocument = new MernDB({
             genId: genCodeInt,
             full: link,
-            short: int2radix64(genCodeInt)
+            short: int2radix64(genCodeInt),
+            clicks: 0,
+            timeStamp: Date.now()
           })
           try{
             const ll = await newPostDocument.save();
@@ -49,7 +51,9 @@ route.post("/", async (req, res) => {
             const newPostDocument = new MernDB({
                 genId: genInt,
                 full: link,
-                short: code
+                short: code,
+                clicks: 0,
+                timeStamp: Date.now()
             })
             try{
                 const ll = await newPostDocument.save();
