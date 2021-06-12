@@ -27,6 +27,10 @@ const shortUrlSchema = new mongoose.Schema({
     timeStamp: {
         type: Number,
         required: true,
+    },
+    lastAs: {
+        type: Number,
+        required: true,
     }
 });
 

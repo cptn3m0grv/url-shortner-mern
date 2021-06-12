@@ -29,12 +29,14 @@ route.post("/", async (req, res) => {
             genResult = await MernDB.find({genCode: genCodeInt});
         }
 
+        const curr = Date.now();
         const newPostDocument = new MernDB({
             genId: genCodeInt,
             full: link,
             short: int2radix64(genCodeInt),
             clicks: 0,
-            timeStamp: Date.now()
+            timeStamp: curr,
+            lastAs: curr
           })
           try{
             const ll = await newPostDocument.save();
@@ -48,12 +50,14 @@ route.post("/", async (req, res) => {
         if(result.length !== 0){
             return res.json({"msg": "Short Code Already exists"})
         }else{
+            const curr = Date.now();
             const newPostDocument = new MernDB({
                 genId: genInt,
                 full: link,
                 short: code,
                 clicks: 0,
-                timeStamp: Date.now()
+                timeStamp: curr,
+                lastAs: curr
             })
             try{
                 const ll = await newPostDocument.save();
